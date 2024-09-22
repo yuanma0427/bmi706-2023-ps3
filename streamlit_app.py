@@ -41,16 +41,16 @@ st.write("## Age-specific cancer mortality rates")
 ### P2.1 ###
 # replace with st.slider
 year = 2012
-subset = df[df["Year"] == year]
 ### P2.1 ###
-
+year = st.slider("Year", 1994, 2020, 2012)
+subset = df[df["Year"] == year]
 
 ### P2.2 ###
 # replace with st.radio
 sex = "M"
-subset = subset[subset["Sex"] == sex]
 ### P2.2 ###
-
+sex = st.radio("Sex", ["M", "F"])
+subset = subset[subset["Sex"] == sex]
 
 ### P2.3 ###
 # replace with st.multiselect
@@ -64,16 +64,35 @@ countries = [
     "Thailand",
     "Turkey",
 ]
-subset = subset[subset["Country"].isin(countries)]
 ### P2.3 ###
-
+countries = st.multiselect("Countries", ["Austria", "Germany", "Iceland", "Spain", "Sweden", "Thailand", "Turkey"], ["Austria", "Germany", "Iceland", "Spain", "Sweden", "Thailand", "Turkey"])
+subset = subset[subset["Country"].isin(countries)]
 
 ### P2.4 ###
 # replace with st.selectbox
 cancer = "Malignant neoplasm of stomach"
-subset = subset[subset["Cancer"] == cancer]
 ### P2.4 ###
-
+cancer = st.selectbox("Cancer", ('Leukaemia',
+       'Malignant neoplasm of breast',
+       'Malignant neoplasm of lip oral cavity and pharynx',
+       'Malignant neoplasm of ovary', 
+       'Malignant neoplasm of prostate',
+       'Malignant neoplasm of stomach',
+       'Malignant neoplasm of colon  rectum and anus',
+       'Remainder of malignant neoplasms',
+       'Malignant neoplasm of cervix uteri',
+       'Malignant neoplasm of meninges brain and other parts of central nervous system',
+       'Malignant neoplasm of pancreas', 
+       'Malignant neoplasm of larynx',
+       'Malignant neoplasm of other and unspecified parts of uterus',
+       'Multiple myeloma and malignant plasma cell neoplasms',
+       'Malignant neoplasm of liver and intrahepatic bile ducts',
+       'Malignant neoplasm of trachea  bronchus and lung',
+       'Malignant neoplasm of bladder',
+       'Malignant neoplasm of oesophagus', 
+       'Malignant melanoma of skin',
+       "Non-Hodgkin's lymphoma"))
+subset = subset[subset["Cancer"] == cancer]
 
 ### P2.5 ###
 ages = [
@@ -87,14 +106,15 @@ ages = [
     "Age >64",
 ]
 
-chart = alt.Chart(subset).mark_bar().encode(
+chart = alt.Chart(subset).mark_rect().encode(
     x=alt.X("Age", sort=ages),
-    y=alt.Y("Rate", title="Mortality rate per 100k"),
-    color="Country",
+    y=alt.Y("Country"),
+    color=alt.Color('Rate', scale=alt.Scale(type='log', domain=(0.01,100), clamp=True), title="Mortality rate per 100k"),
     tooltip=["Rate"],
 ).properties(
     title=f"{cancer} mortality rates for {'males' if sex == 'M' else 'females'} in {year}",
 )
+
 ### P2.5 ###
 
 st.altair_chart(chart, use_container_width=True)

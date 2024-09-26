@@ -119,6 +119,13 @@ chart = alt.Chart(subset).mark_rect().encode(
 
 st.altair_chart(chart, use_container_width=True)
 
+chart2 = alt.Chart(subset).mark_bar().encode(
+    x = alt.X('sum(Pop)'),
+    y = alt.Y("Country", sort='-x')
+)
+st.altair_chart(chart2, use_container_width=True)
+
+
 countries_in_subset = subset["Country"].unique()
 if len(countries_in_subset) != len(countries):
     if len(countries_in_subset) == 0:

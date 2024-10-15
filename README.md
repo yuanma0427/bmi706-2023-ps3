@@ -1,7 +1,6 @@
 # bmi706-2023-ps3
 
-Hello, Yuan Ma
-
+Hello
 
 ## Requirements
 
